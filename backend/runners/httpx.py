@@ -7,7 +7,8 @@ from .base import BaseRunner
 
 class HttpxRunner(BaseRunner):
     def __init__(self):
-        local_bin = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "bin", "httpx")
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        local_bin = os.path.join(os.path.dirname(os.path.dirname(current_dir)), "bin", "httpx")
         binary = local_bin if os.path.exists(local_bin) else (shutil.which("httpx") or shutil.which("httpx-toolkit") or "httpx")
         super().__init__("httpx", binary)
         

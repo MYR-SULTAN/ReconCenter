@@ -6,7 +6,8 @@ from .base import BaseRunner
 
 class AmassRunner(BaseRunner):
     def __init__(self):
-        local_bin = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "bin", "amass")
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        local_bin = os.path.join(os.path.dirname(os.path.dirname(current_dir)), "bin", "amass")
         binary = local_bin if os.path.exists(local_bin) else (shutil.which("amass") or "amass")
         super().__init__("amass", binary)
         

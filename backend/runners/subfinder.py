@@ -6,7 +6,8 @@ from .base import BaseRunner
 
 class SubfinderRunner(BaseRunner):
     def __init__(self):
-        local_bin = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "bin", "subfinder")
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        local_bin = os.path.join(os.path.dirname(os.path.dirname(current_dir)), "bin", "subfinder")
         binary = local_bin if os.path.exists(local_bin) else (shutil.which("subfinder") or "subfinder")
         super().__init__("subfinder", binary)
         

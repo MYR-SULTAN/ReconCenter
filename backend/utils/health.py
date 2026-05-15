@@ -11,7 +11,8 @@ def check_tools() -> Dict[str, bool]:
         "httpx": False
     }
     
-    local_bin_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "bin")
+    current_dir = os.path.abspath(os.path.dirname(__file__))
+    local_bin_dir = os.path.join(os.path.dirname(os.path.dirname(current_dir)), "bin")
     
     for tool in tools.keys():
         local_path = os.path.join(local_bin_dir, tool)
