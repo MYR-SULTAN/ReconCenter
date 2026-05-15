@@ -1,4 +1,8 @@
-# Cyber Recon Command Center
+# Rex (Recon Engine X)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Powered by AI](https://img.shields.io/badge/Powered%20By-AI%20(80%25)-8A2BE2.svg)](#-credits--acknowledgments)
 
 A professional Desktop application using Python and `pywebview` to unify Subfinder, Amass, and httpx in a tactical, local-first dashboard.
 
@@ -11,38 +15,36 @@ This application provides a seamless GUI for running command-line reconnaissance
 
 ---
 
-## 🚀 Installation & Setup (Ubuntu)
+## 🚀 Installation & Setup
 
-### 1. Install System Dependencies
-Make sure you have Go installed (required to install the recon tools), along with Python and pywebview dependencies:
-
+### 1. Clone the Repository
 ```bash
-sudo apt update
-sudo apt install -y python3 python3-pip python3-venv golang gir1.2-webkit2-4.0
+git clone https://github.com/MYR-SULTAN/ReconCenter.git
+cd ReconCenter
 ```
 
-### 2. Install Recon Tools
-You can install the tools using Go or download their binaries directly. Make sure they are in your system PATH.
+### 2. Install Recon Tools (Self-Contained Binaries)
+For the best portable experience, download the pre-compiled binaries of the tools and place them in the `bin/` directory inside the project. The app will automatically detect them:
 
 ```bash
-# Subfinder
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-
-# Amass
-go install -v github.com/owasp-amass/amass/v4/...@master
-
-# httpx
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-
-# Add Go binaries to your PATH (add this to ~/.bashrc or ~/.zshrc)
-export PATH=$PATH:$(go env GOPATH)/bin
+mkdir -p bin
+cd bin
+# Download and extract subfinder, amass, and httpx binaries here
+# Ensure they are executable: chmod +x subfinder amass httpx
+cd ..
 ```
 
-### 3. Setup Python Environment
+### 3. Setup Python Virtual Environment (venv)
+You must create a virtual environment so the application can run its GUI dependencies (like PyQt6) without breaking your system Python:
+
 ```bash
-cd rex
+# Create the virtual environment
 python3 -m venv venv
+
+# Activate the virtual environment
 source venv/bin/activate
+
+# Install all required Python packages (including PyQt6 for the GUI)
 pip install -r requirements.txt
 ```
 
@@ -90,3 +92,14 @@ This architecture is highly modular. You can easily extend it by adding new tool
 3. **nuclei Integration:** Run templates on discovered alive hosts. This would require a new view in the frontend to display vulnerabilities.
 4. **Screenshotting:** Use `gowitness` or `httpx -screenshot`. Update the UI to display an image gallery grid.
 5. **Plugin System:** Implement a dynamic Python loader that checks a `plugins/` directory for `.py` files that inherit from `BaseRunner`. This allows the community to drop in new tools without modifying the core codebase.
+
+---
+
+## 🏆 Credits & Acknowledgments
+
+- **MyrTech (ميرتك):** Project visionary and creator.
+- **AI Assisted:** Approximately **80%** of this codebase was co-developed and accelerated by AI.
+- Thanks to the open-source community for the amazing tools: [Subfinder](https://github.com/projectdiscovery/subfinder), [Amass](https://github.com/owasp-amass/amass), and [Httpx](https://github.com/projectdiscovery/httpx).
+
+---
+*Built with ❤️ by [MyrTech]*
