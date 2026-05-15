@@ -78,7 +78,12 @@ class Api:
 
     def _run_scan_thread(self, config_dict: Dict[str, Any]):
         start_time = time.time()
-        target = config_dict.get("target", "")
+        raw_target = config_dict.get("target", "").strip()
+        
+        # Clean the target (remove http://, https://, and paths)
+        clean_target = re.sub(r'^https?://', '', raw_target)
+        target = clean_target.split('/')[0]
+        
         tools = config_dict.get("tools", {})
         
         use_subfinder = tools.get("subfinder", False)
