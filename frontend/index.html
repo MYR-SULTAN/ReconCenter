@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Recon Command Center</title>
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <div id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <h1>Recon Center</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item" data-view="history">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    History
+                </a>
+                <a href="#" class="nav-item" data-view="settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Settings
+                </a>
+            </nav>
+            
+            <div class="tool-health" id="toolHealthContainer">
+                <h3>System Status</h3>
+                <!-- Health items injected by JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2 id="pageTitle">Dashboard</h2>
+                <div class="window-controls">
+                    <!-- Custom window controls could go here if framing is removed -->
+                </div>
+            </header>
+
+            <div class="view-container active" id="view-dashboard">
+                <!-- Control Panel -->
+                <div class="control-panel glass-panel">
+                    <div class="input-group">
+                        <label for="targetInput">Target Domain</label>
+                        <input type="text" id="targetInput" placeholder="example.com">
+                    </div>
+                    
+                    <div class="tools-selection">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="tool-subfinder" checked>
+                            <span class="checkmark"></span>
+                            Subfinder
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="tool-amass" checked>
+                            <span class="checkmark"></span>
+                            Amass
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="tool-httpx" checked>
+                            <span class="checkmark"></span>
+                            Httpx (Alive Check)
+                        </label>
+                    </div>
+
+                    <div class="actions">
+                        <button id="btnStartScan" class="btn btn-primary">Start Recon</button>
+                        <button id="btnStopScan" class="btn btn-danger" disabled>Stop</button>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="card glass-panel">
+                        <div class="card-title">Total Found</div>
+                        <div class="card-value" id="countTotal">0</div>
+                    </div>
+                    <div class="card glass-panel">
+                        <div class="card-title">Alive Subdomains</div>
+                        <div class="card-value alive-color" id="countAlive">0</div>
+                    </div>
+                    <div class="card glass-panel">
+                        <div class="card-title">Status</div>
+                        <div class="card-value status-badge" id="scanStatus">Idle</div>
+                    </div>
+                </div>
+
+                <!-- Split Layout: Results & Logs -->
+                <div class="split-layout">
+                    <!-- Results Table -->
+                    <div class="results-container glass-panel">
+                        <div class="panel-header">
+                            <h3>Results</h3>
+                            <div class="panel-actions">
+                                <input type="text" id="searchTable" placeholder="Filter..." class="search-input">
+                                <button id="btnExport" class="btn btn-sm">Export</button>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table id="resultsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Domain</th>
+                                        <th>Sources</th>
+                                        <th>Status</th>
+                                        <th>IP</th>
+                                        <th>Title</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="empty-state">
+                                        <td colspan="5">No results yet. Start a scan.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Terminal / Logs -->
+                    <div class="logs-container glass-panel">
+                        <div class="panel-header">
+                            <h3>Activity Log</h3>
+                            <div class="panel-actions">
+                                <button id="btnCopyLogs" class="btn btn-sm">Copy Logs</button>
+                            </div>
+                        </div>
+                        <div class="terminal" id="terminal">
+                            <div class="log-line info">System initialized. Waiting for commands...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-container" id="view-history">
+                <div class="glass-panel">
+                    <h3>Scan History</h3>
+                    <div class="table-wrapper">
+                        <table id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>Target</th>
+                                    <th>Date</th>
+                                    <th>Tools</th>
+                                    <th>Total</th>
+                                    <th>Alive</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-container" id="view-settings">
+                <div class="glass-panel settings-panel">
+                    <h3>Settings</h3>
+                    <p>Coming soon...</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
